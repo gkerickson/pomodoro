@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import Task from "./components/Task.js"
 import CreateTaskComponent from "./components/CreateTaskComponent.js";
 
 const centeredOnPage = {
@@ -9,43 +8,61 @@ const centeredOnPage = {
     display: "flex",
 };
 
-const POMODORO_LENGTH_MS = 25 * 60 * 1000;
+const disabledDiv = {
+    PointerEvent: "none",
+    opacity: "0.5"
+}
+
+// const POMODORO_LENGTH_MS = 25 * 60 * 1000;
+const POMODORO_LENGTH_MS =  5000;
+const BREAK_LENGTH_MS =  5000;
+// const BREAK_LENGTH_MS = 5 * 60 * 1000;
 
 export default function App() {
+    // const [activeTask, setActiveTask] = useState({name: "test", description: "dummy data"});
     const [activeTask, setActiveTask] = useState(null);
-    const [inactiveTasks, setInactiveTasks] = useState([]);
+    const [onBreak, setOnBreak] = useState(false);
+    // const [onBreak, ] = useState(false);
+    // const setOnBreak = ()=> {};
 
     const nextTimeSwitch = useRef();
     const intervalId = useRef();
 
-    const startPomodoro = task => {
+    const startPomodoro = () => {
+        setOnBreak(false);
         nextTimeSwitch.current = Date.now() + POMODORO_LENGTH_MS;
-        setActiveTask(task);
     };
+
+    const submitNewTask = task => {
+        setActiveTask(task);
+        startPomodoro();
+    }
 
     const startBreak = () => {
-        nextTimeSwitch.current = Date.now() + BREAK_LENGTH;
+        nextTimeSwitch.current = Date.now() + BREAK_LENGTH_MS;
+        setOnBreak(true);
     };
 
-    const finishActiveTask = () => {
-        timestamp.current = null;
-        setActiveTask(null);
-        startBreak(intervalId.current);
-    };
+    useEffect(() => {
+        if (activeTask == null) return;
+        clearInterval(intervalId.current)
+        intervalId.current = setInterval(() => {
+            if (Date.now() < nextTimeSwitch.current) return; // 
+            if (onBreak) {
+                startPomodoro();
+            } else {
+                startBreak();
+            }
+            clearInterval(intervalId.current)
+        }, 1001);
+    }, [activeTask, onBreak]);
 
-    // useEffect(() => {
-    //     if (activeTask == null) return;
-    //     intervalId.current = setInterval(() => {
-    //         if (timestamp.current == null) return;
-    //         if ((Date.now() - timestamp.current) < POMODORO_LENGTH_MS) return;
-    //     }, 1001);
-    // }, [activeTask]);
-
-    return activeTask ?
-        <div style={centeredOnPage}>
+    return !activeTask ?
+        <CreateTaskComponent addTask={submitNewTask} /> :
+        <div style={{...centeredOnPage}}>
             <div className="row w-75">
                 <div className="col">
-                    <div className="card text-bg-primary">
+                    <div className="card text-bg-primary" style={{...(onBreak ? disabledDiv: {})}}>
                         <div className="card-body">
                             <h2 className="card-title">Active Task</h2>
                             <p style={{ fontSize: "1.5rem", fontWeight: "bold" }} className="card-text">{activeTask.name}</p>
@@ -54,5 +71,5 @@ export default function App() {
                     </div>
                 </div>
             </div>
-        </div> : <CreateTaskComponent addTask={startPomodoro} />;
+        </div>;
 }
