@@ -43,8 +43,8 @@ export default function App() {
         }, 1001);
     }, [activeTask]);
 
-    return activeTask ? (
-        <><div className="section">
+    return  activeTask ? 
+        <><div className="container">
             <h2>Active Tasks</h2>
             {activeTask ?
                 <Task name={activeTask.name} description={activeTask.description} /> :
@@ -52,9 +52,7 @@ export default function App() {
                     <p>Waiting for Active Task</p>
                 </div>
             }
-        </div></>) : ( <CreateTaskComponent addTask={addTask} />);
-
-
+        </div></> :  <CreateTaskComponent addTask={addTask} />;
 
     // {/* <div className="section">
     // <h1>Manage Tasks</h2>
