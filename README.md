@@ -1,4 +1,21 @@
-# Minimal React Web Project
+# Pomodoro App
 
-Build the smallest React-Web project from the ground up.  
-Learn a bit about tooling and create a template for further projects.
+Build a Pomodoro Task App.
+
+## Backlog
+
+
+[Epic] Create a Task
+    [Story] A form which accepts a task title
+    [Story] A form which accepts a task description
+    [Story] 
+
+
+[Epic] Active Task which goes through a full Pomodoro Cycle
+
+
+
+
+
+
+
