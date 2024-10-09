@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import CreateTaskComponent from "./components/CreateTaskComponent.js";
+import ThemeColors from "./components/ThemeColors.js";
 
 const centeredOnPage = {
     justifyContent: "center",
@@ -75,7 +76,9 @@ export default function App() {
     const mins = (timeRemaining / 1000 - secs) / 60;
 
     return !activeTask ?
-        <CreateTaskComponent addTask={submitNewTask} /> :
+        <>
+            <ThemeColors />
+            <CreateTaskComponent addTask={submitNewTask} /></> :
         <div style={{ ...centeredOnPage }}>
             <div className="row w-75">
                 <div className="col">

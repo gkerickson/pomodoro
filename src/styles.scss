@@ -1,0 +1,56 @@
+
+// $primary: #ECCFC3;
+// $secondary: #957D95;
+// $success: #ECB8A5;
+// $info: #E49AB0;
+// $warning: #904C77;
+// $light: $secondary;
+// $dark: yellow;
+
+// $body-color: white;
+
+// $btn-primary-bg: $primary;
+// $btn-primary-color: white;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+body {
+    background-image: linear-gradient(45deg, $secondary, $primary);
+}
+
+.theme-colors {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.color-swatch {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.color-swatch.primary {
+    background-color: $primary;
+}
+
+.color-swatch.secondary {
+    background-color: $secondary;
+}
+
+.color-swatch.success {
+    background-color: $success;
+}
+
+.color-swatch.info {
+    background-color: $info;
+}
+
+.color-swatch.warning {
+    background-color: $warning;
+}
