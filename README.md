@@ -12,3 +12,13 @@ Build a Pomodoro Task App.
 [x] [Epic] Active Task which goes through a full Pomodoro Cycle
 
 [x] [Story] End task early
+[ ] [Epic] Task Backlog
+    [x] [Story] Create tasks which are displayed in backlog
+    [ ] [Story] Re-order backlog
+    [ ] [Story] Delete backlog item
+    [ ] [Story] Make backlog item active task
+
+[ ] [Epic] Persistance
+    [ ] [Story] Use cookies to save current task backlog
+    [ ] [Story] Store backlog in cloud
+        [ ] [Spike] ---

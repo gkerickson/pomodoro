@@ -1,17 +1,12 @@
 import React, { useState, useRef } from "react";
 
 export default function Task({ name, description }) {
-    const ref = useRef();
     return (
-        <div className="task">
-            <h3>Task Name</h3>
-            <p className="taskName">{name}</p>
-            {
-                description ? <>
-                    <h3>Task Description</h3>
-                    <p className="taskDescription">{description}</p>
-                </> : <></>
-            }
+        <div className={"card text-bg-primary"}>
+            <div className="card-body">
+                <p style={{ fontSize: "1.5rem", fontWeight: "bold" }} className="card-text">{name}</p>
+                <p className="card-text">{description}</p>
+            </div>
         </div>
     );
 }
