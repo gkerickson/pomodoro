@@ -19,6 +19,6 @@ Build a Pomodoro Task App.
     [ ] [Story] Make backlog item active task
 
 [ ] [Epic] Persistance
-    [ ] [Story] Use cookies to save current task backlog
+    [x] [Story] Use local-storage to save current task backlog
     [ ] [Story] Store backlog in cloud
         [ ] [Spike] ---

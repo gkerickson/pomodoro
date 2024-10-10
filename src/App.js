@@ -14,9 +14,42 @@ export default function App() {
     const [taskBacklog, setTaskBacklog] = useState([]);
     const [activeTask, setActiveTask] = useState(null);
     const [onBreak, setOnBreak] = useState(false);
-
-    const [timeRemaining, setTimeRemaining] = useState(-1);
+    const [timeRemaining, setTimeRemaining] = useState(0);
     const intervalId = useRef();
+
+    useEffect(() => {
+        const savedTaskBacklog = localStorage.getItem("taskBacklog");
+        if (savedTaskBacklog && savedTaskBacklog.length > 0) {
+            setTaskBacklog(JSON.parse(savedTaskBacklog));
+        }
+
+        const savedActiveTask = localStorage.getItem("activeTask");
+        if (savedActiveTask) {
+            setActiveTask(JSON.parse(savedActiveTask));
+        }
+
+        const savedExpirationTime = localStorage.getItem("expirationTime");
+        if (savedExpirationTime && !isNaN(savedExpirationTime)) {
+            setTimeRemaining(Math.round((savedExpirationTime - Date.now()) / 1000) * 1000);
+        }
+
+        const onBreak = localStorage.getItem("onBreak");
+        if (onBreak) {
+            setOnBreak(JSON.parse(onBreak));
+        }
+    }, []);
+
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.setItem("taskBacklog", JSON.stringify(taskBacklog));
+            localStorage.setItem("activeTask", JSON.stringify(activeTask));
+            localStorage.setItem("expirationTime", JSON.stringify((timeRemaining + Date.now())));
+            localStorage.setItem("onBreak", JSON.stringify(onBreak));
+        }
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    }, [taskBacklog, activeTask, timeRemaining]);
 
     const startPomodoro = () => {
         console.log("Starting pomo")
