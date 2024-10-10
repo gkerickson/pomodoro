@@ -1,19 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import CreateTaskComponent from "./components/CreateTaskComponent.js";
 import ThemeColors from "./components/ThemeColors.js";
-
-const centeredOnPage = {
-    justifyContent: "center",
-    height: "100vh",
-    alignItems: "center",
-    display: "flex",
-
-};
-
-const disabledDiv = {
-    PointerEvent: "none",
-    opacity: "0.5"
-}
+import ActiveTask from "./components/ActiveTask.js";
+import Timer from "./components/Timer.js";
 
 const POMODORO_LENGTH_MS = 25 * 60 * 1000;
 const BREAK_LENGTH_MS = 5 * 60 * 1000;
@@ -47,16 +36,17 @@ export default function App() {
         setOnBreak(true);
     };
 
+    const endTask = () => {
+        setActiveTask(null);
+        setOnBreak(false);
+        setTimeRemaining(-1);
+    }
+
     useEffect(() => {
         if (activeTask == null) return;
 
         clearInterval(intervalId.current)
         intervalId.current = setInterval(() => {
-            if (timeRemaining <= 0) {
-
-            }
-
-
             setTimeRemaining(prev => {
                 if (prev <= 0) {
                     if (onBreak) {
@@ -79,23 +69,13 @@ export default function App() {
         <>
             <ThemeColors />
             <CreateTaskComponent addTask={submitNewTask} /></> :
-        <div style={{ ...centeredOnPage }}>
+        <div className="centered-on-page">
             <div className="row w-75">
                 <div className="col">
-                    <div className={"card text-bg-primary" + (onBreak ? "" : " shadow")} style={{ ...(onBreak ? disabledDiv : {}) }}>
-                        <div className="card-body">
-                            <h2 className="card-title">Active Task</h2>
-                            <p style={{ fontSize: "1.5rem", fontWeight: "bold" }} className="card-text">{activeTask.name}</p>
-                            <p className="card-text">{activeTask.description}</p>
-                            <button disabled={onBreak} type="button" onClick={startBreak} className="btn btn-secondary w-100">Take a break</button>
-                        </div>
-                    </div>
+                    <ActiveTask onBreak={onBreak} activeTask={activeTask} startBreak={startBreak} endTask={endTask} />
                 </div>
                 <div className="col-3">
-                    <div className={"card card-body w-100 h-100" + (onBreak ? " shadow" : "")} style={centeredOnPage}>
-                            <p className="fs-1 fw-bold" style={{}}>{mins}m {secs}s</p>
-                            <button disabled={!onBreak} className="btn btn-primary" onClick={startPomodoro}>Continue Task</button>
-                    </div>
+                    <Timer startPomodoro={startPomodoro} onBreak={onBreak} mins={mins} secs={secs} />
                 </div>
             </div>
         </div>;
